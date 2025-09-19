@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
 
-// Form configuration
 const formConfig = [
   { id: 'name', type: 'text', label: 'Name', required: true },
   { id: 'email', type: 'email', label: 'Email', required: true },
@@ -10,7 +9,6 @@ const formConfig = [
   { id: 'skills', type: 'checkbox', label: 'Skills', required: true, options: ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js'] }
 ];
 
-// Redux-like reducer for managing submissions
 const submissionsReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_SUBMISSION':
@@ -22,7 +20,6 @@ const submissionsReducer = (state, action) => {
   }
 };
 
-// Validation functions
 const validateField = (field, value) => {
   if (field.required && (!value || (Array.isArray(value) && value.length === 0))) {
     return `${field.label} is required`;
@@ -42,7 +39,6 @@ const validateField = (field, value) => {
   return '';
 };
 
-// Dynamic Form Component
 const DynamicForm = ({ onSubmit, onNavigateToSubmissions }) => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
@@ -50,7 +46,6 @@ const DynamicForm = ({ onSubmit, onNavigateToSubmissions }) => {
   const handleInputChange = (fieldId, value) => {
     setFormData(prev => ({ ...prev, [fieldId]: value }));
     
-    // Real-time validation
     const field = formConfig.find(f => f.id === fieldId);
     const error = validateField(field, value);
     setErrors(prev => ({ ...prev, [fieldId]: error }));
@@ -59,7 +54,6 @@ const DynamicForm = ({ onSubmit, onNavigateToSubmissions }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validate all fields
     const newErrors = {};
     formConfig.forEach(field => {
       const error = validateField(field, formData[field.id]);
@@ -68,7 +62,6 @@ const DynamicForm = ({ onSubmit, onNavigateToSubmissions }) => {
     
     setErrors(newErrors);
     
-    // If no errors, submit the form
     if (Object.keys(newErrors).length === 0) {
       const submission = {
         id: Date.now().toString(),
@@ -262,7 +255,6 @@ const DynamicForm = ({ onSubmit, onNavigateToSubmissions }) => {
   );
 };
 
-// Submissions Display Component
 const SubmissionsDisplay = ({ submissions, onBackToForm }) => {
   const containerStyle = {
     padding: '20px',
@@ -373,25 +365,21 @@ const SubmissionsDisplay = ({ submissions, onBackToForm }) => {
   );
 };
 
-// Main App Component
 const App = () => {
   const [submissions, dispatch] = useReducer(submissionsReducer, []);
-  const [currentView, setCurrentView] = useState('form'); // 'form' or 'submissions'
+  const [currentView, setCurrentView] = useState('form'); 
 
-  // Load submissions from localStorage on component mount
   useEffect(() => {
     const savedSubmissions = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
     dispatch({ type: 'LOAD_SUBMISSIONS', payload: savedSubmissions });
   }, []);
 
-  // Save submissions to localStorage whenever submissions change
   useEffect(() => {
     localStorage.setItem('formSubmissions', JSON.stringify(submissions));
   }, [submissions]);
 
   const handleFormSubmit = (submission) => {
     dispatch({ type: 'ADD_SUBMISSION', payload: submission });
-    // Redirect to submissions page after successful submission
     setCurrentView('submissions');
   };
 
