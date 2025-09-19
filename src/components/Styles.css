@@ -1,0 +1,64 @@
+/* src/components/styles.css */
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.navbar {
+  display: flex;
+  gap: 1rem;
+  background: #eee;
+  padding: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+input, select {
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 0.6rem 1rem;
+  background: teal;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:disabled {
+  background: gray;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem;
+  }
+  table, th, td {
+    font-size: 0.9rem;
+  }
+}

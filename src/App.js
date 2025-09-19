@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  Link,
+} from "react-router-dom";
+import DynamicForm from "./components/DynamicForm";
+import SubTable from "./components/SubTable";
 
-function App() {
+// Layout component (wraps nav + children)
+function Layout() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* Navigation */}
+      <nav className="navbar">
+        <Link to="/">Form</Link>
+        <Link to="/submissions">Submissions</Link>
+      </nav>
+
+      {/* Child routes render here */}
+      <Outlet />
     </div>
   );
+}
+
+// Router setup
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />, // layout contains nav + Outlet
+    children: [
+      { index: true, element: <DynamicForm /> },
+      { path: "submissions", element: <SubTable /> },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
